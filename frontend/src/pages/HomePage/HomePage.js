@@ -1,6 +1,7 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import style from './style.css';
+import * as api from '../../api/index.js'
 
 import Module from '../../components/Module/Module';
 import CreateModule from '../../components/CreateModule/CreateModule';
@@ -12,20 +13,23 @@ function HomePage() {
     // Temporary state to store modules
     const [modules, setModules] = useState([]);
 
+    useEffect(() => {
+        getModules();
+    }, [])
+
     const handleCreate = () => {
         setCreate(!create);
     }
 
-    const addModule = (text) => {
-        setModules(modules => [...modules, {name: modules.length + 1, text: text, selected: false}]);
+    const addModule = (data) => {
+        setModules(modules => [...modules, data]);
         setCreate(!create);
     }
 
     const handleModuleClick = (name) => {
-        let mod = modules.find(element => element.name == name);
+        let mod = modules.find(element => element.title == name);
         modules.map(item => {
             if (item == mod) {
-                console.log(item);
                 item.selected = true;
                 return item;
             } else {
@@ -35,6 +39,19 @@ function HomePage() {
         })
         let modupdate = modules.find(element => element.name == name);
         setSelected(mod);  
+    }
+
+    const getModules = async () => {
+        try {
+            const { data } = await api.getModules();
+
+            if (data.length > 0) {
+                setModules(data)
+                console.log(modules);
+            }            
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -53,21 +70,30 @@ function HomePage() {
                 </div>
             }            
             <div>
-                <ul className="module-list">
-                    {modules.map(module => (
-                        <li key={module.name}>
-                            <Module handleModuleClick={handleModuleClick} name={module.name} selected={module.selected}></Module>
-                        </li>                        
-                    ))}
-                </ul>
-            </div>
+                { (modules.length > 0) ? 
+                    <ul className="module-list">
+                        {modules.map(module => (
+                            <li key={module._id}>
+                                <Module handleModuleClick={() => handleModuleClick(module.title)} name={module.title} selected={module.selected}></Module>
+                            </li>                        
+                        ))}
+                    </ul>
+                :
+                    <div>
+                        No Modules
+                    </div>
+                }                
+                </div>
             <div>
                 { selected ?
                     <p>{selected.text}</p>
                 :
                     null
                 }                
-            </div>          
+            </div>
+            <div>
+                <button onClick={getModules}>Get Modules</button>
+            </div>         
         </div>
         
     )

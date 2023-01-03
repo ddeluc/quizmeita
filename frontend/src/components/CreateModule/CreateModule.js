@@ -1,12 +1,21 @@
 import React from 'react';
 import { useState } from 'react';
 import style from './style.css';
+import * as api from '../../api/index.js';
 
-function CreateModule({ addModule }) {
+function CreateModule ({ addModule }) {
+    const { text, setText } = useState();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        addModule(e.target.text.value)
+        try {
+            const { data } = await api.createModule({text: e.target.text.value});
+            addModule(data);
+
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }        
     }
 
     return (

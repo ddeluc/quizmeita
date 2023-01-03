@@ -24,7 +24,7 @@ function Module({ name, handleModuleClick, selected}) {
     return (
         <div onClick={() => {handleModuleClick(name)}}>
             <div>
-                Module {name}
+                {name}
             </div>
             { selected ?
                 <div>
