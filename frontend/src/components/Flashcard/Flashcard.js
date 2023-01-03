@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from "react";
+import * as wr from "wordreference-api";
 
-function Flashcard({ name }) {
-    const [front, setFront] = useState();
-    const [back, setBack] = useState("*Translation*");
+function Flashcard({ front, back }) {
     const [face, setFace] = useState(true);
-
-    useEffect(() => {
-        setFront(name);
-    }, [])
 
     function flip() {
         setFace(!face);
+    }
+
+    const translate = () => {
+        const def = wr(front, 'it', 'en');
+        console.log(def);
     }
 
     return (
         <div>
             <div>
                 Flashcard {front}
-            </div>            
+            </div>
+            <button onClick={translate}>Translate</button>            
             <button onClick={flip}>Flip</button>
             { face ?
                 <div>{front}</div>

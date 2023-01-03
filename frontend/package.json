@@ -1,6 +1,7 @@
 {
   "name": "quizshare",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -12,7 +13,8 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.6.1",
     "react-scripts": "^2.1.3",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "wordreference-api": "^1.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

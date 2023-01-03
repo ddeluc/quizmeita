@@ -1,36 +1,62 @@
 import React, { useEffect, useState } from "react";
 import Flashcard from "../Flashcard/Flashcard";
+import * as api from "../../api/index.js";
 
-function Deck(t) {
-    const [words, setWords] = useState([]);
+function Deck({ module }) {
+    const [flashcards, setFlashcards] = useState();
 
     useEffect(() => {
-        console.log("called");
-        getWords();
+        addFlashcards();
     }, [])
 
-    // TEMPORARY SOLUTION: Get nouns from the text
     function getWords() {
         // Temporary text
-        const text = "Cane albero macchina cibo"    
+        const text = "macchina cibo"    
         console.log(text.split(" "));
-        setWords(text.split(" "));
+        return(text.split(" "));
+    }
+
+    const addFlashcards = async () => {
+        // FIX: Why is this function firing twice?
+        console.log("I fire once.")
+
+        let fc = [{front: "test", back: "translation"}]
+        const words = getWords();
+
+        words.forEach(word => {
+            let flashcard = {front: word, back: "translation"}
+            fc.push(flashcard);
+        })
+
+        try {
+            console.log(module)
+            const { data } = await api.addFlashcards(module._id, {flashcards: fc});
+
+            setFlashcards(data);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
         <div>
             <div>
                 Deck
-            </div>            
-            <div>
-                <ul className="Flashcard-list">
-                    {words.map(word => (
-                        <li key={word}>
-                            <Flashcard name={word}></Flashcard>
-                        </li>                        
-                    ))}
-                </ul>
-            </div>            
+            </div>
+            { flashcards ?
+                <div>
+                    <ul className="Flashcard-list">
+                        {flashcards.map(flashcard => (
+                            <li key={flashcard._id}>
+                                <Flashcard front={flashcard.front} back={flashcard.back}></Flashcard>
+                            </li>                        
+                        ))}
+                    </ul>
+                </div> 
+            :
+                null
+            }            
+                       
         </div>
     )
 }

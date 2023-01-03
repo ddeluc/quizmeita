@@ -27,17 +27,16 @@ function PrepositionsQuiz({ text }) {
         }
         
         setScore(score);
-        console.log(score.total + " / " + score.scoreArray.length )
+        console.log(score);
+        console.log(score.total + " / " + score.scoreArray.length)
     }
 
     function testAnswers() {
         console.log(answers);
     }
 
+    // FIX: Misses the preposition if it is the first in the text
     function generateQuiz(text) {
-        // Temporary text
-        // const text = "Poi all'improvviso mi e scattato qualcosa nella testa e ho pensato."   
-        console.log("here")
 
         // Two values to be returned
         let quiztext = "";
@@ -58,7 +57,7 @@ function PrepositionsQuiz({ text }) {
         // Prepare the quiz text
         let userAnswers = {}
         for (let i = 0; i < wordList.length; i++) {
-            if (prepositions.includes(wordList[i])) {
+            if (prepositions.includes(wordList[i].toLowerCase())) {
                 answers.push({index: i, preposition: wordList[i]});
                 userAnswers[answers.length] = "";
                 quiztext = quiztext.concat(`(${answers.length})____` + " ");
@@ -84,12 +83,6 @@ function PrepositionsQuiz({ text }) {
                         <div>
                             <p>{quiz.quiztext}</p>
                         </div>
-                        {/* <form onSubmit={handleSubmit}>
-                            {quiz.answers.map((answer, i) => (
-                                <input type="text"></input>
-                            ))}
-                            <input type="submit" value="Submit" />
-                        </form> */}
                         <ul className="Answer-list">
                             {quiz.answers.map((answer, i) => (
                                 <li key={i}>
@@ -98,7 +91,7 @@ function PrepositionsQuiz({ text }) {
                                             type="text"
                                             onChange={(e) => recordAnswer(e, i)}
                                             />
-                                    </label>                                    
+                                    </label>                                                                   
                                 </li>                        
                             ))}
                         </ul>
@@ -107,6 +100,14 @@ function PrepositionsQuiz({ text }) {
                     null
                 } 
             </div>
+            {/* Temporary score solution */}
+            { score ? 
+                <div>
+                    {score.total} / {score.scoreArray.length} : {score.scoreArray}
+                </div>
+            :
+                null
+            }
             <button onClick={handleSubmit}>Test Answers</button>
         </>        
     )

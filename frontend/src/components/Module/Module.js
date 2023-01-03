@@ -17,10 +17,6 @@ function Module({ module, handleModuleClick, selected}) {
 
     }
 
-    const handleFlash = () => {
-        navigate(`/flash/${module._id}`)
-    }
-
     return (
         <div onClick={() => {handleModuleClick(module.title)}}>
             <div>
@@ -29,7 +25,7 @@ function Module({ module, handleModuleClick, selected}) {
             { selected ?
                 <div>
                     <button onClick={handleQuiz}>Quiz</button>
-                    <button onClick={handleFlash}>Flash</button>
+                    {/* <button onClick={handleFlash}>Flash</button> */}
                 </div>
             :
                 null

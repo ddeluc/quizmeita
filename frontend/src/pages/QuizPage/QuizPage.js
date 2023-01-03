@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import PrepositionsQuiz from '../../components/Quiz/PrepositionsQuiz/PrepositionsQuiz';
 import { useNavigate } from "react-router-dom";
 import * as api from "../../api/index.js";
+import Deck from '../../components/Deck/Deck';
 
 function QuizPage() {
     const { id } = useParams()
@@ -29,17 +30,17 @@ function QuizPage() {
         console.log(module);
     }
 
-    // Temporary text
-    const text = "Poi all'improvviso mi e scattato qualcosa nella testa e ho pensato. "
-
     return (
         <div>            
-            <div>{ module ?                
+            <div>
+            { module ?                
                 <div>
                     <h1>Quiz Page {module.title}</h1>
                     <PrepositionsQuiz text={module.text}></PrepositionsQuiz>
                     <button onClick={() => {navigate('/')}}>Home</button>
-                    <button onClick={showState}>Show State</button> 
+                    <button onClick={showState}>Show State</button>
+                    {/* FIX: Find dictionary api before continuing with flashcards */}
+                    {/* <Deck module={module}></Deck>  */}
                 </div>                
             : 
                 null 

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import flashcardSchema from './flashcard.js';
 
 const moduleSchema = new mongoose.Schema({
     title: {
@@ -13,6 +14,10 @@ const moduleSchema = new mongoose.Schema({
     text: {
         type: String,
         required: true
+    },
+    flashcards: {
+        type: [flashcardSchema],
+        default: null
     }
 })
 

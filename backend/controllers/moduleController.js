@@ -42,3 +42,25 @@ export const createModule = async (req, res) => {
         res.status(409).json({ message: error.message });
     }
 }
+
+export const addFlashcards = async (req, res) => {
+    const { id } = req.params;
+    const flashcards = req.body.flashcards;
+
+    try {
+        // const module = await Module.findOne({ _id: id })
+        Module.updateOne({$inc: {_id: id}}, {flashcards: flashcards},
+                function (err, docs) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    console.log("Updated : ", docs)
+                }
+            }
+        )
+        
+        res.status(200).json(flashcards);
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
+}

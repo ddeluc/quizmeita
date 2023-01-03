@@ -18,6 +18,8 @@ function CreateModule ({ addModule }) {
         }        
     }
 
+    // FIX: Set the flashcards here
+
     return (
         <div>
             <form onSubmit={handleSubmit}>
