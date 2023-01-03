@@ -11,6 +11,20 @@ export const getModules = async (req, res) => {
     }
 }
 
+export const getModule = async (req, res) => {
+    console.log(req.params)
+    const { id } = req.params;
+    console.log(id)
+
+    try {
+        const module = await Module.findOne({ _id: id })
+        
+        res.status(200).json(module);
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
+}
+
 export const createModule = async (req, res) => {
 
     const module = {

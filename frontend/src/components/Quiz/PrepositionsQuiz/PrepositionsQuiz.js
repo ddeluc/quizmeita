@@ -2,12 +2,13 @@ import { joinPaths } from "@remix-run/router";
 import React, { useEffect, useState } from "react";
 import prepositions from "../grammar";
 
-function PrepositionsQuiz(text) {
+function PrepositionsQuiz({ text }) {
     const [quiz, setQuiz] = useState();
     const [answers, setAnswers] = useState();
     const [score, setScore] = useState();
 
     useEffect(() => {
+        console.log(text);
         generateQuiz(text)
     }, []);
 
@@ -33,9 +34,9 @@ function PrepositionsQuiz(text) {
         console.log(answers);
     }
 
-    function generateQuiz(t) {
+    function generateQuiz(text) {
         // Temporary text
-        const text = "Poi all'improvviso mi e scattato qualcosa nella testa e ho pensato."   
+        // const text = "Poi all'improvviso mi e scattato qualcosa nella testa e ho pensato."   
         console.log("here")
 
         // Two values to be returned

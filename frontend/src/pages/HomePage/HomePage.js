@@ -74,7 +74,7 @@ function HomePage() {
                     <ul className="module-list">
                         {modules.map(module => (
                             <li key={module._id}>
-                                <Module handleModuleClick={() => handleModuleClick(module.title)} name={module.title} selected={module.selected}></Module>
+                                <Module handleModuleClick={() => handleModuleClick(module.title)} module={module} selected={module.selected}></Module>
                             </li>                        
                         ))}
                     </ul>
