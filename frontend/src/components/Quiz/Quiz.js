@@ -1,15 +1,16 @@
 import { joinPaths } from "@remix-run/router";
 import React, { useEffect, useState } from "react";
-import prepositions from "../grammar";
+import prepositions from "./grammar";
+import * as grammar from "./grammar";
 
-function PrepositionsQuiz({ text }) {
+function Quiz({ text }) {
     const [quiz, setQuiz] = useState();
     const [answers, setAnswers] = useState();
     const [score, setScore] = useState();
 
     useEffect(() => {
         console.log(text);
-        generateQuiz(text)
+        generateQuiz(text, 1)
     }, []);
 
     function recordAnswer(e, id) {
@@ -19,7 +20,7 @@ function PrepositionsQuiz({ text }) {
     function handleSubmit() {
         let score = {scoreArray: [], total: 0}
         for (let i = 0; i < quiz.answers.length; i++) {
-            if (quiz.answers[i].preposition.toLowerCase() == answers[i+1].toLowerCase()) {
+            if (quiz.answers[i].ans.toLowerCase() == answers[i+1].toLowerCase()) {
                 score.scoreArray.push(1);
                 score.total = score.total + 1;
             } else
@@ -31,16 +32,31 @@ function PrepositionsQuiz({ text }) {
         console.log(score.total + " / " + score.scoreArray.length)
     }
 
-    function testAnswers() {
+    function showAnswers() {
         console.log(answers);
     }
 
     // FIX: Misses the preposition if it is the first in the text
-    function generateQuiz(text) {
+    function generateQuiz(text, quiztype) {
 
         // Two values to be returned
         let quiztext = "";
         let answers = [];
+        let reference = [];
+        let quizTitle = "";
+
+        // Assign appropriate quiz
+        switch(quiztype) {
+            case 1:
+                reference = grammar.prepositions;
+                quizTitle = "Prepositions"
+                break;
+            case 2: 
+                reference = grammar.articles;
+                quizTitle = "Articles"
+                break;
+            default:
+        }
 
         // Handle apostrophies
         let preWordList = text.split("'");
@@ -57,8 +73,8 @@ function PrepositionsQuiz({ text }) {
         // Prepare the quiz text
         let userAnswers = {}
         for (let i = 0; i < wordList.length; i++) {
-            if (prepositions.includes(wordList[i].toLowerCase())) {
-                answers.push({index: i, preposition: wordList[i]});
+            if (reference.includes(wordList[i].toLowerCase())) {
+                answers.push({index: i, ans: wordList[i]});
                 userAnswers[answers.length] = "";
                 quiztext = quiztext.concat(`(${answers.length})____` + " ");
             } else {
@@ -71,15 +87,15 @@ function PrepositionsQuiz({ text }) {
         }
 
         setAnswers(userAnswers);
-        setQuiz({quiztext: quiztext, answers: answers})
+        setQuiz({quiztext: quiztext, answers: answers, type: quizTitle})
     }
 
     return (
         <>
             <div>
-                Prepositions Quiz
                 { quiz ?
                     <div>
+                    {quiz.type} Quiz
                         <div>
                             <p>{quiz.quiztext}</p>
                         </div>
@@ -91,7 +107,9 @@ function PrepositionsQuiz({ text }) {
                                             type="text"
                                             onChange={(e) => recordAnswer(e, i)}
                                             />
-                                    </label>                                                                   
+                                        {`   ${score ? score.scoreArray[i] ? "correct" : "incorrect" : ""}`}
+                                    </label>
+                                                                                                       
                                 </li>                        
                             ))}
                         </ul>
@@ -108,9 +126,10 @@ function PrepositionsQuiz({ text }) {
             :
                 null
             }
+            <button onClick={() => generateQuiz(text, 2)}>Next Quiz</button>
             <button onClick={handleSubmit}>Test Answers</button>
         </>        
     )
 }
 
-export default PrepositionsQuiz;
+export default Quiz;

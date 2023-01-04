@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import style from './style.css';
 import { useParams } from 'react-router-dom';
-import PrepositionsQuiz from '../../components/Quiz/PrepositionsQuiz/PrepositionsQuiz';
+import Quiz from '../../components/Quiz/Quiz';
 import { useNavigate } from "react-router-dom";
 import * as api from "../../api/index.js";
 import Deck from '../../components/Deck/Deck';
@@ -36,7 +36,7 @@ function QuizPage() {
             { module ?                
                 <div>
                     <h1>Quiz Page {module.title}</h1>
-                    <PrepositionsQuiz text={module.text}></PrepositionsQuiz>
+                    <Quiz text={module.text}></Quiz>
                     <button onClick={() => {navigate('/')}}>Home</button>
                     <button onClick={showState}>Show State</button>
                     {/* FIX: Find dictionary api before continuing with flashcards */}

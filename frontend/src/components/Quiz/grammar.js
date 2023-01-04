@@ -1,7 +1,7 @@
 // grammar.js
 // Used to reference grammar
 
-const prepositions = [
+export const prepositions = [
     "a", "al", "allo", "alla", "all'", "ai", "agli", "alle",
     "di", "del", "dello", "della", "dell'", "dei", "degli", "delle",
     "da", "dal", "dallo", "dalla", "dall'", "dai", "dagli", "dalle",
@@ -10,4 +10,8 @@ const prepositions = [
     "con", "per", "tra", "fra"
 ]
 
-export default prepositions;
+export const articles = [
+    "un", "uno", "una", "un'",
+    "il", "lo", "l'", "i", "gli",
+    "la", "le"
+]
