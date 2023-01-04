@@ -41,6 +41,20 @@ function HomePage() {
         setSelected(mod);  
     }
 
+    // FIX: Still displays the module if it is the last one being deleted
+    const deleteModule = async (id) => {
+        try {
+            const { data } = await api.deleteModule(id);
+
+            console.log(data);
+            setSelected(null);
+            getModules();
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }
+
     const getModules = async () => {
         try {
             const { data } = await api.getModules();
@@ -68,13 +82,20 @@ function HomePage() {
                 <div>
                     <button onClick={handleCreate}>Create</button>
                 </div>
-            }            
+            }
+            <div>
+                { selected ?
+                    <p>{selected.text}</p>
+                :
+                    <div>Select a Module</div>
+                }                
+            </div>            
             <div>
                 { (modules.length > 0) ? 
                     <ul className="module-list">
                         {modules.map(module => (
                             <li key={module._id}>
-                                <Module handleModuleClick={() => handleModuleClick(module.title)} module={module} selected={module.selected}></Module>
+                                <Module handleModuleClick={() => handleModuleClick(module.title)} module={module} deleteModule={deleteModule} selected={module.selected}></Module>
                             </li>                        
                         ))}
                     </ul>
@@ -83,17 +104,7 @@ function HomePage() {
                         No Modules
                     </div>
                 }                
-                </div>
-            <div>
-                { selected ?
-                    <p>{selected.text}</p>
-                :
-                    null
-                }                
-            </div>
-            <div>
-                <button onClick={getModules}>Get Modules</button>
-            </div>         
+            </div>    
         </div>
         
     )

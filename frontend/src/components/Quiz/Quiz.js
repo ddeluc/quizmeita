@@ -5,6 +5,7 @@ import * as grammar from "./grammar";
 
 function Quiz({ text }) {
     const [quiz, setQuiz] = useState();
+    const [showAnswers, setShowAnswers] = useState(false);
     const [answers, setAnswers] = useState();
     const [score, setScore] = useState();
 
@@ -28,12 +29,9 @@ function Quiz({ text }) {
         }
         
         setScore(score);
+        setShowAnswers(true);
         console.log(score);
         console.log(score.total + " / " + score.scoreArray.length)
-    }
-
-    function showAnswers() {
-        console.log(answers);
     }
 
     // FIX: Misses the preposition if it is the first in the text
@@ -108,8 +106,8 @@ function Quiz({ text }) {
                                             onChange={(e) => recordAnswer(e, i)}
                                             />
                                         {`   ${score ? score.scoreArray[i] ? "correct" : "incorrect" : ""}`}
-                                    </label>
-                                                                                                       
+                                        {`${showAnswers && !score.scoreArray[i] ? ":   " + quiz.answers[i].ans : ""}`}
+                                    </label>                                                                                                       
                                 </li>                        
                             ))}
                         </ul>
@@ -118,16 +116,8 @@ function Quiz({ text }) {
                     null
                 } 
             </div>
-            {/* Temporary score solution */}
-            { score ? 
-                <div>
-                    {score.total} / {score.scoreArray.length} : {score.scoreArray}
-                </div>
-            :
-                null
-            }
             <button onClick={() => generateQuiz(text, 2)}>Next Quiz</button>
-            <button onClick={handleSubmit}>Test Answers</button>
+            <button onClick={handleSubmit}>Submit</button>
         </>        
     )
 }

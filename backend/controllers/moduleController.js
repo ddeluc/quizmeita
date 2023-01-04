@@ -11,6 +11,18 @@ export const getModules = async (req, res) => {
     }
 }
 
+export const deleteModule = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        await Module.deleteOne({ _id: id });
+
+        res.status(200).json({ message: "Success" });
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
+}
+
 export const getModule = async (req, res) => {
     console.log(req.params)
     const { id } = req.params;

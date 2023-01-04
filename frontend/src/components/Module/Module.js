@@ -3,7 +3,7 @@ import { useState } from 'react';
 import style from './style.css';
 import { useNavigate } from "react-router-dom";
 
-function Module({ module, handleModuleClick, selected}) {
+function Module({ module, handleModuleClick, deleteModule, selected}) {
     const [text, setText] = useState();
     // const [selected, setSelected] = useState(false);
 
@@ -25,7 +25,7 @@ function Module({ module, handleModuleClick, selected}) {
             { selected ?
                 <div>
                     <button onClick={handleQuiz}>Quiz</button>
-                    {/* <button onClick={handleFlash}>Flash</button> */}
+                    <button onClick={() => {deleteModule(module._id)}}>Delete</button>
                 </div>
             :
                 null
