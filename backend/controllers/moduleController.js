@@ -38,10 +38,18 @@ export const getModule = async (req, res) => {
 }
 
 export const createModule = async (req, res) => {
+    let modTitle = "Module" + Math.floor(Math.random() * 9) + Math.floor(Math.random() * 9) + Math.floor(Math.random() * 9);
+    let modText = `All'improviso mi è scattato qualcosa nella testa e ho pensato: "A me piace farlo". E in quel preciso istante ho scoperto una libertà che non posedevo prima.`
+
+    if (!(req.body.title == ""))
+        modTitle = req.body.title   
+        
+    if (!(req.body.text == ""))
+        modText = req.body.text
 
     const module = {
-        title: "Module" + Math.floor(Math.random() * 9) + Math.floor(Math.random() * 9) + Math.floor(Math.random() * 9),
-        text: req.body.text
+        title: modTitle,
+        text: modText
     }
 
     const newModule = new Module({ ...module })

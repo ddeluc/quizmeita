@@ -82,14 +82,7 @@ function HomePage() {
                 <div>
                     <button onClick={handleCreate}>Create</button>
                 </div>
-            }
-            <div>
-                { selected ?
-                    <p>{selected.text}</p>
-                :
-                    <div>Select a Module</div>
-                }                
-            </div>            
+            }            
             <div>
                 { (modules.length > 0) ? 
                     <ul className="module-list">
@@ -103,6 +96,13 @@ function HomePage() {
                     <div>
                         No Modules
                     </div>
+                }                
+            </div>
+            <div>
+                { selected ?
+                    <p>{selected.text}</p>
+                :
+                    <div>Select a Module</div>
                 }                
             </div>    
         </div>

@@ -9,7 +9,7 @@ function CreateModule ({ addModule }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const { data } = await api.createModule({text: e.target.text.value});
+            const { data } = await api.createModule({title: e.target.title.value, text: e.target.text.value});
             addModule(data);
 
             console.log(data);
@@ -19,10 +19,14 @@ function CreateModule ({ addModule }) {
     }
 
     // FIX: Set the flashcards here
-
+    
     return (
         <div>
             <form onSubmit={handleSubmit}>
+            <label>
+                Title:
+                <input type="text" name="title" />
+            </label>
             <label>
                 Text:
                 <input type="text" name="text" />

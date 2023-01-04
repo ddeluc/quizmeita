@@ -34,7 +34,6 @@ function Quiz({ text }) {
         console.log(score.total + " / " + score.scoreArray.length)
     }
 
-    // FIX: Misses the preposition if it is the first in the text
     function generateQuiz(text, quiztype) {
 
         // Two values to be returned
@@ -56,6 +55,7 @@ function Quiz({ text }) {
             default:
         }
 
+
         // Handle apostrophies
         let preWordList = text.split("'");
         for (let i = 0; i < preWordList.length-1; i++) {
@@ -66,15 +66,19 @@ function Quiz({ text }) {
         let wordList = [];
         for (let i = 0; i < preWordList.length; i++) {
             wordList = wordList.concat(preWordList[i].split(" "))
-        }        
+        }
+        
+        console.log(wordList);
         
         // Prepare the quiz text
+        // FIX: The quotation solution in this function only applies to prepositions!
         let userAnswers = {}
         for (let i = 0; i < wordList.length; i++) {
-            if (reference.includes(wordList[i].toLowerCase())) {
-                answers.push({index: i, ans: wordList[i]});
+            if (reference.includes(wordList[i].replace(`"`, '').toLowerCase())) {
+                answers.push({index: i, ans: wordList[i].replace(`"`, '')});
+                let quotation = wordList[i].includes(`"`) ? `"` : '';
                 userAnswers[answers.length] = "";
-                quiztext = quiztext.concat(`(${answers.length})____` + " ");
+                quiztext = quiztext.concat(`${quotation}(${answers.length})____` + " ");
             } else {
                 if (wordList[wordList.length-1] == "'") {
                     quiztext = quiztext.concat(wordList[i])
