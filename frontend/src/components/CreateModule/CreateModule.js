@@ -3,13 +3,13 @@ import { useState } from 'react';
 import style from './style.css';
 import * as api from '../../api/index.js';
 
-function CreateModule ({ addModule }) {
+function CreateModule ({ addModule, user }) {
     const { text, setText } = useState();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const { data } = await api.createModule({title: e.target.title.value, text: e.target.text.value});
+            const { data } = await api.createModule({title: e.target.title.value, text: e.target.text.value, author: user.username});
             addModule(data);
 
             console.log(data);

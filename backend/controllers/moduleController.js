@@ -1,11 +1,21 @@
 import mongoose from "mongoose";
 import Module from "../models/module.js";
+import User from "../models/user.js";
 
 export const getModules = async (req, res) => {
-    try {
-        const testData = await Module.find();
+    const { userId } = req.params;
+    const modules = [];
 
-        res.status(200).json(testData);
+    try {
+        const user = await User.findOne({ _id: userId});
+        const userModuleArray = user.modules;
+
+        for (let i = 0; i < userModuleArray.length; i++) {
+            const module = await Module.findOne({ _id: userModuleArray[i] })
+            modules.push(module);
+        }
+
+        res.status(200).json(modules);
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
@@ -15,7 +25,29 @@ export const deleteModule = async (req, res) => {
     const { id } = req.params;
 
     try {
-        await Module.deleteOne({ _id: id });
+        const moduleToDelete = await Module.findOne({ _id: id });
+        
+        const username = moduleToDelete.author;
+
+        const user = await User.findOne({ username: username });
+        let userModuleArray = user.modules;
+
+        const index = userModuleArray.indexOf(id);
+        if (index > -1) {
+            userModuleArray.splice(index, 1);
+        }
+
+        User.updateOne({$inc: {username: username}}, {modules: userModuleArray},
+                function (err, docs) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    console.log("Updated : ", docs)
+                }
+            }
+        )
+        
+        await Module.deleteOne({ _id: id })
 
         res.status(200).json({ message: "Success" });
     } catch (error) {
@@ -49,13 +81,24 @@ export const createModule = async (req, res) => {
 
     const module = {
         title: modTitle,
-        text: modText
+        text: modText,
+        author: req.body.author
     }
 
     const newModule = new Module({ ...module })
 
+    // Add Module
     try {
         await newModule.save();
+        User.updateOne({$inc: {_id: req.body.userId}}, {$push: { modules: newModule._id}},
+                function (err, docs) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    console.log("Updated : ", docs)
+                }
+            }
+        )
 
         res.status(201).json(newModule);
     } catch (error) {

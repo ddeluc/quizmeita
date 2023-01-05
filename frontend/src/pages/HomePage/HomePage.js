@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import style from './style.css';
 import * as api from '../../api/index.js'
 
@@ -10,17 +10,32 @@ import Auth from '../../components/Auth/Auth';
 function HomePage() {
     const [create, setCreate] = useState(false);
     const [selected, setSelected] = useState();
+    const [isSignedIn, setIsSignedIn] = useState(false);
+    const [user, setUser] = useState();
 
     // Temporary state to store modules
     const [modules, setModules] = useState([]);
 
     useEffect(() => {
-        getModules();
-    }, [])
+        if (!user) {
+            setUser(JSON.parse(localStorage.getItem('profile')))
+        }
+
+        if (localStorage.getItem('token')) {
+            setIsSignedIn(true);
+        }
+        
+        getModules(user);
+    }, [user])
 
     const handleCreate = () => {
         setCreate(!create);
     }
+
+    const setUserData = (user) => {
+        setUser(user);
+        setIsSignedIn(true);
+    } 
 
     const addModule = (data) => {
         setModules(modules => [...modules, data]);
@@ -47,23 +62,25 @@ function HomePage() {
         try {
             const { data } = await api.deleteModule(id);
 
-            console.log(data);
             setSelected(null);
-            getModules();
+            getModules(user);
+            console.log(modules);
         } catch (error) {
             console.log(error)
         }
         
     }
 
-    const getModules = async () => {
-        try {
-            const { data } = await api.getModules();
+    const logout = () => {
+        setIsSignedIn(false);
+        localStorage.clear();
+    }
 
-            if (data.length > 0) {
-                setModules(data)
-                console.log(modules);
-            }            
+    const getModules = async (user) => {
+        try {
+            const { data } = await api.getModules(user._id);
+
+            setModules(data)        
         } catch (error) {
             console.log(error);
         }
@@ -71,44 +88,52 @@ function HomePage() {
 
     return (
         <div>
-            <Auth></Auth>
-            <div>
-                <h1>Home Page</h1>
-            </div>
-            { create ?
-                <div>
-                    <CreateModule addModule = {addModule}></CreateModule>
-                    <button onClick={handleCreate}>Cancel</button>
-                </div>                
+            { !isSignedIn ?
+                <Auth setUserData={setUserData}></Auth>
             :
-                <div>
-                    <button onClick={handleCreate}>Create</button>
-                </div>
-            }            
-            <div>
-                { (modules.length > 0) ? 
-                    <ul className="module-list">
-                        {modules.map(module => (
-                            <li key={module._id}>
-                                <Module handleModuleClick={() => handleModuleClick(module.title)} module={module} deleteModule={deleteModule} selected={module.selected}></Module>
-                            </li>                        
-                        ))}
-                    </ul>
-                :
+                <>
                     <div>
-                        No Modules
+                        <h1>Home Page</h1>
                     </div>
-                }                
-            </div>
-            <div>
-                { selected ?
-                    <p>{selected.text}</p>
-                :
-                    <div>Select a Module</div>
-                }                
-            </div>    
-        </div>
-        
+                    { create ?
+                        <>
+                            <CreateModule user={user} addModule={addModule}></CreateModule>
+                            <button onClick={handleCreate}>Cancel</button>
+                        </>                
+                    :
+                        <>
+                            <button onClick={handleCreate}>Create</button>
+                        </>
+                    }            
+                    <div>
+                        { (modules.length > 0) ? 
+                            <ul className="module-list">
+                                {modules.map(module => (
+                                    <li key={module._id}>
+                                        <Module username={user.username} handleModuleClick={() => handleModuleClick(module.title)} module={module} deleteModule={deleteModule} selected={module.selected}></Module>
+                                    </li>                        
+                                ))}
+                            </ul>
+                        :
+                            <>
+                                No Modules
+                            </>
+                        }                
+                    </div>
+                    <div>
+                        { selected ?
+                            <p>{selected.text}</p>
+                        :
+                            <>Select a Module</>
+                        }                
+                    </div>    
+                </>
+            }
+            <button onClick={() => {console.log(user)}}>Show User</button>
+            <button onClick={() => {setIsSignedIn(!isSignedIn)}}>Toggle Auth</button>   
+            <button onClick={() => {console.log(modules)}}>Show Modules</button>  
+            { isSignedIn ? <button onClick={logout}>Logout</button> : null }       
+        </div>        
     )
 }
 

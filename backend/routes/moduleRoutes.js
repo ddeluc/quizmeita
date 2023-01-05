@@ -9,8 +9,8 @@ import { addFlashcards,
 
 const router = express.Router();
 
-router.get('/', getModules);
-router.get('/:id', getModule);
+router.get('/:userId', getModules);
+router.get('/:username/:id', getModule);
 router.delete('/:id', deleteModule);
 router.post('/', createModule);
 router.patch('/:id', addFlashcards);

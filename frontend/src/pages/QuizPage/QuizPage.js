@@ -7,7 +7,7 @@ import * as api from "../../api/index.js";
 import Deck from '../../components/Deck/Deck';
 
 function QuizPage() {
-    const { id } = useParams()
+    const { username, id } = useParams()
     const [module, setModule] = useState();
 
     const navigate = useNavigate();
@@ -17,8 +17,10 @@ function QuizPage() {
     }, [])
 
     const getModule = async () => {
+        console.log(id);
         try {
-            const { data } = await api.getModule(id);
+            console.log(id);
+            const { data } = await api.getModule(username, id);
 
             setModule(data);
         } catch (error) {
@@ -45,7 +47,7 @@ function QuizPage() {
             : 
                 null 
             }
-            </div>            
+            </div>           
         </div>
     )
 }

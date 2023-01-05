@@ -3,7 +3,7 @@ import { useState } from 'react';
 import style from './style.css';
 import { useNavigate } from "react-router-dom";
 
-function Module({ module, handleModuleClick, deleteModule, selected}) {
+function Module({ username, module, handleModuleClick, deleteModule, selected}) {
     const [text, setText] = useState();
     // const [selected, setSelected] = useState(false);
 
@@ -11,7 +11,7 @@ function Module({ module, handleModuleClick, deleteModule, selected}) {
 
     const handleQuiz = () => {
         console.log(module.title + " called")
-        navigate(`/quiz/${module._id}`)
+        navigate(`/quiz/${username}/${module._id}`)
 
         // Pass the module text to the QuizPage
 

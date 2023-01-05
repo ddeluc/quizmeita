@@ -5,13 +5,12 @@ import bcrypt from 'bcryptjs';
 import style from './style.css';
 import * as api from "../../api/index.js";
 
-function Auth() {
+function Auth({ setUserData }) {
     const [isSignup, setIsSignup] = useState(false);
     const [formData, setFormData] = useState();
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value })   
-        console.log(formData);     
+        setFormData({ ...formData, [e.target.name]: e.target.value })       
     };
 
     const handleSubmit = async (e) => {
@@ -26,6 +25,7 @@ function Auth() {
 
                 localStorage.setItem('token', JSON.stringify(token));
                 localStorage.setItem('profile', JSON.stringify(data.result));
+                setUserData(data.result);
                 console.log("Signed Up!")
             } catch (error) {
                 console.log(error);
@@ -40,6 +40,7 @@ function Auth() {
 
                 localStorage.setItem('token', JSON.stringify(token));
                 localStorage.setItem('profile', JSON.stringify(data.result))
+                setUserData(data.result);
                 console.log("Signed In!")
             } catch (error) {
                 console.log(error);
@@ -53,17 +54,17 @@ function Auth() {
             <form>
                 <label>
                     <p> {isSignup ? "Create " : ""} Username</p>
-                    <input onChange={handleChange} type="text" name="username"/>
+                    <input onChange={handleChange} type="text" name="username" required/>
                 </label>
                 <label>
                     <p>Password</p>
-                    <input onChange={handleChange} type="text" name="password" />
+                    <input onChange={handleChange} type="text" name="password" required/>
                 </label>
                 {
                     isSignup && (
                         <label>
                             <p>Confirm Password</p>
-                            <input onChange={handleChange} type="text" name="confirmPassword"/>
+                            <input onChange={handleChange} type="text" name="confirmPassword" required/>
                         </label>
                     )
                 }
