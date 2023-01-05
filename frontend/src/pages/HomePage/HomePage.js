@@ -24,7 +24,7 @@ function HomePage() {
         if (localStorage.getItem('token')) {
             setIsSignedIn(true);
         }
-        
+
         getModules(user);
     }, [user])
 
@@ -37,13 +37,15 @@ function HomePage() {
         setIsSignedIn(true);
     } 
 
+    // FIX: Weird module behaviour where you can't access the quiz or delete button. Must have something
+    // to do with api requests and passing data.
     const addModule = (data) => {
         setModules(modules => [...modules, data]);
         setCreate(!create);
     }
 
-    const handleModuleClick = (name) => {
-        let mod = modules.find(element => element.title == name);
+    const handleModuleClick = (id) => {
+        let mod = modules.find(element => element._id == id);
         modules.map(item => {
             if (item == mod) {
                 item.selected = true;
@@ -53,11 +55,9 @@ function HomePage() {
                 return item;
             }
         })
-        let modupdate = modules.find(element => element.name == name);
         setSelected(mod);  
     }
 
-    // FIX: Still displays the module if it is the last one being deleted
     const deleteModule = async (id) => {
         try {
             const { data } = await api.deleteModule(id);
@@ -67,8 +67,7 @@ function HomePage() {
             console.log(modules);
         } catch (error) {
             console.log(error)
-        }
-        
+        }        
     }
 
     const logout = () => {
@@ -110,7 +109,7 @@ function HomePage() {
                             <ul className="module-list">
                                 {modules.map(module => (
                                     <li key={module._id}>
-                                        <Module username={user.username} handleModuleClick={() => handleModuleClick(module.title)} module={module} deleteModule={deleteModule} selected={module.selected}></Module>
+                                        <Module username={user.username} handleModuleClick={() => handleModuleClick(module._id)} module={module} deleteModule={deleteModule} selected={module.selected}></Module>
                                     </li>                        
                                 ))}
                             </ul>

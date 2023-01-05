@@ -18,7 +18,7 @@ function Module({ username, module, handleModuleClick, deleteModule, selected}) 
     }
 
     return (
-        <div onClick={() => {handleModuleClick(module.title)}}>
+        <div onClick={() => {handleModuleClick(module._id)}}>
             <div>
                 {module.title}
             </div>
