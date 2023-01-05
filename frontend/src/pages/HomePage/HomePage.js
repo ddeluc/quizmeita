@@ -5,6 +5,7 @@ import * as api from '../../api/index.js'
 
 import Module from '../../components/Module/Module';
 import CreateModule from '../../components/CreateModule/CreateModule';
+import Auth from '../../components/Auth/Auth';
 
 function HomePage() {
     const [create, setCreate] = useState(false);
@@ -70,6 +71,7 @@ function HomePage() {
 
     return (
         <div>
+            <Auth></Auth>
             <div>
                 <h1>Home Page</h1>
             </div>

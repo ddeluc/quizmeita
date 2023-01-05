@@ -109,7 +109,7 @@ function Quiz({ text }) {
                                             type="text"
                                             onChange={(e) => recordAnswer(e, i)}
                                             />
-                                        {`   ${score ? score.scoreArray[i] ? "correct" : "incorrect" : ""}`}
+                                        {`   ${score ? score.scoreArray[i] ? "correct!" : "incorrect" : ""}`}
                                         {`${showAnswers && !score.scoreArray[i] ? ":   " + quiz.answers[i].ans : ""}`}
                                     </label>                                                                                                       
                                 </li>                        

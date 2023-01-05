@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 
 import moduleRoutes from "./routes/moduleRoutes.js";
+import userRoutes from "./routes/userRoutes.js"
 
 dotenv.config()
 connectDB()
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true}))
 app.use(cors());
 
 app.use('/api/modules', moduleRoutes);
+app.use('/api/user', userRoutes);
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
 
