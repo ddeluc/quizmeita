@@ -11,7 +11,7 @@ function Deck({ module }) {
 
     function getWords() {
         // Temporary text
-        const text = "macchina cibo"    
+        const text = "testa istante libertà"    
         console.log(text.split(" "));
         return(text.split(" "));
     }
@@ -20,11 +20,11 @@ function Deck({ module }) {
         // FIX: Why is this function firing twice?
         console.log("I fire once.")
 
-        let fc = [{front: "test", back: "translation"}]
+        let fc = []
         const words = getWords();
 
         words.forEach(word => {
-            let flashcard = {front: word, back: "translation"}
+            let flashcard = {front: word, back: "*translation*"}
             fc.push(flashcard);
         })
 

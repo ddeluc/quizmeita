@@ -42,7 +42,7 @@ function QuizPage() {
                     <button onClick={() => {navigate('/')}}>Home</button>
                     <button onClick={showState}>Show State</button>
                     {/* FIX: Find dictionary api before continuing with flashcards */}
-                    {/* <Deck module={module}></Deck>  */}
+                    <Deck module={module}></Deck>
                 </div>                
             : 
                 null 
