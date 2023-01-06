@@ -1,5 +1,5 @@
 import { joinPaths } from "@remix-run/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import prepositions from "./grammar";
 import * as grammar from "./grammar";
 
@@ -128,29 +128,13 @@ function Quiz({ text }) {
                             :
                                 <>{text[0]}</>
                         ))}
-                        {/* <div>
-                            <p>{quiz.quiztext}</p>
-                        </div> */}
-                        {/* <ul className="Answer-list">
-                            {quiz.answers.map((answer, i) => (
-                                <li key={i}>
-                                    <label> {`(${i+1})    `}
-                                        <input
-                                            type="text"
-                                            onChange={(e) => recordAnswer(e, i)}
-                                            />
-                                        {`   ${score ? score.scoreArray[i] ? "correct!" : "incorrect" : ""}`}
-                                        {`${showAnswers && !score.scoreArray[i] ? ":   " + quiz.answers[i].ans : ""}`}
-                                    </label>                                                                                                       
-                                </li>                        
-                            ))}
-                        </ul> */}
                     </div>   
                 :
                     null
                 } 
             </div>
             <button onClick={() => generateQuiz(text, 2)}>Next Quiz</button>
+            <button onClick={() => generateQuiz(text, 1)}>Prev Quiz</button>
             <button onClick={handleSubmit}>Submit</button>
         </>        
     )

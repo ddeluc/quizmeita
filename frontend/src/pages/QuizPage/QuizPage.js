@@ -37,7 +37,7 @@ function QuizPage() {
             <div>
             { module ?                
                 <div>
-                    <h1>Quiz Page {module.title}</h1>
+                    <h1>{module.title}</h1>
                     <Quiz text={module.text}></Quiz>
                     <button onClick={() => {navigate('/')}}>Home</button>
                     <button onClick={showState}>Show State</button>

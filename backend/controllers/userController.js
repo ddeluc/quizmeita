@@ -33,6 +33,12 @@ export const signUp = async (req, res) => {
     try {
         const existingUser = await User.findOne({ username })
 
+        if (username.length < 5)
+            return res.status(400).json({ message: "Username is not long enough. "})
+
+        if (password.length < 8)
+            return res.status(400). json({ message: "Password is not long enough. "})
+
         if (existingUser)
             return res.status(400).json({ message: "User already exists. "});
 

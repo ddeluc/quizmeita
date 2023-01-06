@@ -37,7 +37,7 @@ export const deleteModule = async (req, res) => {
             userModuleArray.splice(index, 1);
         }
 
-        User.updateOne({$inc: {username: username}}, {modules: userModuleArray},
+        User.updateOne({username: username}, {modules: userModuleArray},
                 function (err, docs) {
                 if (err) {
                     console.log(err)
@@ -90,7 +90,7 @@ export const createModule = async (req, res) => {
     // Add Module
     try {
         await newModule.save();
-        User.updateOne({$inc: {_id: req.body.userId}}, {$push: { modules: newModule._id}},
+        User.updateOne({username: req.body.author}, {$push: { modules: newModule._id}},
                 function (err, docs) {
                 if (err) {
                     console.log(err)
@@ -112,7 +112,7 @@ export const addFlashcards = async (req, res) => {
 
     try {
         // const module = await Module.findOne({ _id: id })
-        Module.updateOne({$inc: {_id: id}}, {flashcards: flashcards},
+        Module.updateOne({_id: id}, {flashcards: flashcards},
                 function (err, docs) {
                 if (err) {
                     console.log(err)

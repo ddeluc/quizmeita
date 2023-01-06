@@ -7,6 +7,7 @@ import * as api from "../../api/index.js";
 
 function Auth({ setUserData }) {
     const [isSignup, setIsSignup] = useState(false);
+    const [error, setError] = useState(null);
     const [formData, setFormData] = useState();
 
     const handleChange = (e) => {
@@ -28,7 +29,8 @@ function Auth({ setUserData }) {
                 setUserData(data.result);
                 console.log("Signed Up!")
             } catch (error) {
-                console.log(error);
+                console.log(error.response.data.message);
+                setError(error.response.data.message);
             }           
 
         } else {
@@ -43,7 +45,8 @@ function Auth({ setUserData }) {
                 setUserData(data.result);
                 console.log("Signed In!")
             } catch (error) {
-                console.log(error);
+                console.log(error.response.data.message);
+                setError(error.response.data.message);
             }           
         }
     };
@@ -54,23 +57,24 @@ function Auth({ setUserData }) {
             <form>
                 <label>
                     <p> {isSignup ? "Create " : ""} Username</p>
-                    <input onChange={handleChange} type="text" name="username" required/>
+                    <input onChange={handleChange} type="text" name="username" minLength={5} maxLength={12} required/>
                 </label>
                 <label>
                     <p>Password</p>
-                    <input onChange={handleChange} type="text" name="password" required/>
+                    <input onChange={handleChange} type="text" name="password" minLength={8} required/>
                 </label>
                 {
                     isSignup && (
                         <label>
                             <p>Confirm Password</p>
-                            <input onChange={handleChange} type="text" name="confirmPassword" required/>
+                            <input onChange={handleChange} type="text" name="confirmPassword" minLength={8} required/>
                         </label>
                     )
                 }
             <div>
                 <button onClick={handleSubmit} type="submit">Submit</button>
             </div>
+            {error ? <div>{error}</div> : null }
           </form>
           <button onClick={() => {setIsSignup(!isSignup)}}>{ isSignup ? "Log In" : "Sign Up" }</button>
         </div>

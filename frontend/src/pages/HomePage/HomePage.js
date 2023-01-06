@@ -25,7 +25,9 @@ function HomePage() {
             setIsSignedIn(true);
         }
 
-        getModules(user);
+        if (isSignedIn)
+            getModules(user);
+        
     }, [user])
 
     const handleCreate = () => {
@@ -37,8 +39,6 @@ function HomePage() {
         setIsSignedIn(true);
     } 
 
-    // FIX: Weird module behaviour where you can't access the quiz or delete button. Must have something
-    // to do with api requests and passing data.
     const addModule = (data) => {
         setModules(modules => [...modules, data]);
         setCreate(!create);
@@ -70,8 +70,15 @@ function HomePage() {
         }        
     }
 
+    const showUserInfo = () => {
+        console.log(isSignedIn);
+        console.log(user);
+    }
+    
     const logout = () => {
         setIsSignedIn(false);
+        setModules([]);
+        setUser(null);
         localStorage.clear();
     }
 
@@ -79,7 +86,7 @@ function HomePage() {
         try {
             const { data } = await api.getModules(user._id);
 
-            setModules(data)        
+            setModules(data);      
         } catch (error) {
             console.log(error);
         }
@@ -110,7 +117,7 @@ function HomePage() {
                                 {modules.map(module => (
                                     <li key={module._id}>
                                         <Module username={user.username} handleModuleClick={() => handleModuleClick(module._id)} module={module} deleteModule={deleteModule} selected={module.selected}></Module>
-                                    </li>                        
+                                    </li>                                    
                                 ))}
                             </ul>
                         :
@@ -130,7 +137,8 @@ function HomePage() {
             }
             <button onClick={() => {console.log(user)}}>Show User</button>
             <button onClick={() => {setIsSignedIn(!isSignedIn)}}>Toggle Auth</button>   
-            <button onClick={() => {console.log(modules)}}>Show Modules</button>  
+            <button onClick={() => {console.log(modules)}}>Show Modules</button>
+            <button onClick={showUserInfo}>Show User</button>  
             { isSignedIn ? <button onClick={logout}>Logout</button> : null }       
         </div>        
     )
