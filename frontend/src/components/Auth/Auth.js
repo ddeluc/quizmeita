@@ -1,11 +1,9 @@
 // https://www.digitalocean.com/community/tutorials/how-to-add-login-authentication-to-react-applications
 
 import React, { useState } from 'react';
-import bcrypt from 'bcryptjs';
-import style from './style.css';
 import * as api from "../../api/index.js";
 
-function Auth({ setUserData }) {
+function Auth({ setUserData, setToken }) {
     const [isSignup, setIsSignup] = useState(false);
     const [error, setError] = useState(null);
     const [formData, setFormData] = useState();
@@ -16,20 +14,22 @@ function Auth({ setUserData }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(formData);
 
         if(isSignup) {
             // handle signup
             try { 
                 const { data } = await api.signUp(formData);
+                const token = data.token;
 
-                const token = data.token
-
-                localStorage.setItem('token', JSON.stringify(token));
-                localStorage.setItem('profile', JSON.stringify(data.result));
+                // Setup user data and token
                 setUserData(data.result);
+                setToken(token);
+                localStorage.setItem('token', JSON.stringify(token));
+
                 console.log("Signed Up!")
             } catch (error) {
-                console.log(error.response.data.message);
+                console.log(error);
                 setError(error.response.data.message);
             }           
 
@@ -37,15 +37,17 @@ function Auth({ setUserData }) {
             // handle signin
             try {    
                 const { data } = await api.signIn(formData);
-
+                console.log(data);
                 const token = data.token
 
-                localStorage.setItem('token', JSON.stringify(token));
-                localStorage.setItem('profile', JSON.stringify(data.result))
+                // Setup user data and token
                 setUserData(data.result);
+                setToken(token);
+                localStorage.setItem('token', JSON.stringify(token));
+
                 console.log("Signed In!")
             } catch (error) {
-                console.log(error.response.data.message);
+                console.log(error);
                 setError(error.response.data.message);
             }           
         }

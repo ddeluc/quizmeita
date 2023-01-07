@@ -6,42 +6,25 @@ import * as api from '../../api/index.js'
 import Module from '../../components/Module/Module';
 import CreateModule from '../../components/CreateModule/CreateModule';
 import Auth from '../../components/Auth/Auth';
+import Navbar from '../../components/Navbar/Navbar';
 
-function HomePage() {
+function HomePage({ userData }) {
     const [create, setCreate] = useState(false);
     const [selected, setSelected] = useState();
-    const [isSignedIn, setIsSignedIn] = useState(false);
-    const [user, setUser] = useState();
-
-    // Temporary state to store modules
     const [modules, setModules] = useState([]);
 
     useEffect(() => {
-        if (!user) {
-            setUser(JSON.parse(localStorage.getItem('profile')))
-        }
-
-        if (localStorage.getItem('token')) {
-            setIsSignedIn(true);
-        }
-
-        if (isSignedIn)
-            getModules(user);
-        
-    }, [user])
+        getModules(userData);        
+    }, [])
 
     const handleCreate = () => {
         setCreate(!create);
     }
 
-    const setUserData = (user) => {
-        setUser(user);
-        setIsSignedIn(true);
-    } 
-
-    const addModule = (data) => {
+    const addModule = (data, example) => {
         setModules(modules => [...modules, data]);
-        setCreate(!create);
+        if (!example)
+            setCreate(!create);
     }
 
     const handleModuleClick = (id) => {
@@ -63,28 +46,27 @@ function HomePage() {
             const { data } = await api.deleteModule(id);
 
             setSelected(null);
-            getModules(user);
+            getModules(userData);
             console.log(modules);
         } catch (error) {
             console.log(error)
         }        
     }
 
-    const showUserInfo = () => {
-        console.log(isSignedIn);
-        console.log(user);
-    }
-    
-    const logout = () => {
-        setIsSignedIn(false);
-        setModules([]);
-        setUser(null);
-        localStorage.clear();
+    const buildModule = async () => {
+        try {
+            const { data } = await api.createModule({title: "Example", text: "", author: userData.username});
+            addModule(data, true);
+
+            console.log(data);
+        } catch (error) {
+            console.log(error)
+        }        
     }
 
     const getModules = async (user) => {
         try {
-            const { data } = await api.getModules(user._id);
+            const { data } = await api.getModules(userData._id);
 
             setModules(data);      
         } catch (error) {
@@ -92,18 +74,15 @@ function HomePage() {
         }
     }
 
-    return (
+    return (        
         <div>
-            { !isSignedIn ?
-                <Auth setUserData={setUserData}></Auth>
-            :
                 <>
                     <div>
                         <h1>Home Page</h1>
                     </div>
                     { create ?
                         <>
-                            <CreateModule user={user} addModule={addModule}></CreateModule>
+                            <CreateModule user={userData} addModule={addModule}></CreateModule>
                             <button onClick={handleCreate}>Cancel</button>
                         </>                
                     :
@@ -116,7 +95,7 @@ function HomePage() {
                             <ul className="module-list">
                                 {modules.map(module => (
                                     <li key={module._id}>
-                                        <Module username={user.username} handleModuleClick={() => handleModuleClick(module._id)} module={module} deleteModule={deleteModule} selected={module.selected}></Module>
+                                        <Module username={userData.username} handleModuleClick={() => handleModuleClick(module._id)} module={module} deleteModule={deleteModule} selected={module.selected}></Module>
                                     </li>                                    
                                 ))}
                             </ul>
@@ -130,16 +109,23 @@ function HomePage() {
                         { selected ?
                             <p>{selected.text}</p>
                         :
-                            <>Select a Module</>
+                            <>Select a module to display its contents.</>
+                        }
+                        { modules.length == 0 ?
+                            <>
+                                <p>
+                                    If you are new and don't have any modules yet, click the button
+                                    "Example" button below for a pre-built module! 
+                                </p>
+                                <button onClick={buildModule}>Example</button>
+                            </>
+                            
+                        :
+                            null
                         }                
                     </div>    
                 </>
-            }
-            <button onClick={() => {console.log(user)}}>Show User</button>
-            <button onClick={() => {setIsSignedIn(!isSignedIn)}}>Toggle Auth</button>   
-            <button onClick={() => {console.log(modules)}}>Show Modules</button>
-            <button onClick={showUserInfo}>Show User</button>  
-            { isSignedIn ? <button onClick={logout}>Logout</button> : null }       
+            
         </div>        
     )
 }

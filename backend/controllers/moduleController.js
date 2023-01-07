@@ -79,6 +79,17 @@ export const createModule = async (req, res) => {
     if (!(req.body.text == ""))
         modText = req.body.text
 
+    if (modText.length < 100)    
+        return res.status(400).json({ message: "Text must be at least 100 characters. "});
+
+    if (modTitle.length < 5)    
+        return res.status(400).json({ message: "Title must be at least 5 characters. "});
+
+    const existingModule = await Module.findOne({ title: modTitle });
+
+    if (existingModule)
+        return res.status(400).json({ message: "Module with this name already exists. "});
+
     const module = {
         title: modTitle,
         text: modText,

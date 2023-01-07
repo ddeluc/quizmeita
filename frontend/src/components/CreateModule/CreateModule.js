@@ -5,16 +5,18 @@ import * as api from '../../api/index.js';
 
 function CreateModule ({ addModule, user }) {
     const { text, setText } = useState();
+    const [ error, setError ] = useState();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const { data } = await api.createModule({title: e.target.title.value, text: e.target.text.value, author: user.username});
-            addModule(data);
+            addModule(data, false);
 
             console.log(data);
         } catch (error) {
-            console.log(error);
+            console.log(error.response.data.message);
+            setError(error.response.data.message)
         }        
     }
 
@@ -33,6 +35,7 @@ function CreateModule ({ addModule, user }) {
             </label>
             <input type="submit" value="Submit" />
             </form>
+            <div>{error}</div>
         </div>        
     )
 }
