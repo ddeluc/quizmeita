@@ -68,17 +68,17 @@ function QuizPage() {
         <ThemeProvider theme={theme}>
             { module ?
             <Grid container display="flex" justifyContent="center">
-                <Grid item display="flex" justifyContent="center" xs={12} sx={{ border: 1, borderColor: 'primary.main'}}>
+                <Grid item display="flex" justifyContent="center" xs={12}>
                     <Typography variant='h2' sx={{ paddingTop: 2, paddingBottom: 2}}>
                         {module.title}
                     </Typography>
                 </Grid>
-                <Grid item display="flex" justifyContent="center" xs={12} sx={{ border: 1, borderColor: 'primary.main'}}>
+                <Grid item display="flex" justifyContent="center" xs={12}>
                     <Box>
                         <Quiz text={module.text}></Quiz>
                     </Box>
                 </Grid>
-                <Grid item display="flex" justifyContent="center" xs={12} sx={{ border: 1, borderColor: 'primary.main'}}>
+                <Grid item display="flex" justifyContent="center" xs={12}>
                     <Box>
                         <Deck module={module}></Deck>
                     </Box>                    

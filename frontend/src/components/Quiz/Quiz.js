@@ -23,7 +23,7 @@ const theme = createTheme({
 function Quiz({ text }) {
     const [quiz, setQuiz] = useState();
     const [showAnswers, setShowAnswers] = useState(false);
-    const [answers, setAnswers] = useState();
+    const [answers, setAnswers] = useState([]);
     const [score, setScore] = useState();
 
     // Temporary state solution
@@ -40,14 +40,19 @@ function Quiz({ text }) {
     }
 
     function handleSubmit() {
+        
+        console.log(quiz.answers)
         let score = {scoreArray: [], total: 0}
         for (let i = 0; i < quiz.answers.length; i++) {
-            if (quiz.answers[i].ans.toLowerCase() == answers[i].toLowerCase()) {
-                score.scoreArray.push(1);
-                score.total = score.total + 1;
+            if (answers[i]) {
+                if (quiz.answers[i].ans.toLowerCase() == answers[i].toLowerCase()) {
+                    score.scoreArray.push(1);
+                    score.total = score.total + 1;
+                } else
+                    score.scoreArray.push(0);
             } else
                 score.scoreArray.push(0);
-        }
+        }   
         
         setScore(score);
         setShowAnswers(true);
@@ -156,10 +161,10 @@ function Quiz({ text }) {
         // </>
         <ThemeProvider theme={theme}>
             <Grid container display="flex" justifyContent="center">
-                <Grid item display="flex" justifyContent="center" xs={1} sx={{ border: 1, borderColor: 'secondary.main'}}>
+                <Grid item display="flex" justifyContent="center" xs={1}>
                     <Button onClick={() => generateQuiz(text, 1)}>Previous</Button>
                 </Grid>
-                <Grid item display="flex" justifyContent="center" xs={10} sx={{ border: 1, borderColor: 'secondary.main'}}>
+                <Grid item display="flex" justifyContent="center" xs={10}>
                     
                     { quiz ?
                         <Box sx={{  
@@ -167,27 +172,31 @@ function Quiz({ text }) {
                                 flexDirection: 'column',
                                 alignItems: 'center', 
                             }}>                                                 
-                            <Typography variant="h5" sx={{ paddingBottom: 3 }}>
+                            <Typography variant="h4" sx={{ paddingBottom: 3 }}>
                                 {quiz.type} Quiz 
                             </Typography>
-                            <Box>  
-                                {quiztexts.map((text, i) => (
-                                    text[0] === "*preposition*" ?
-                                        
-                                        <TextField
-                                            type="text"
-                                            onChange={(e) => recordAnswer(e, text[1])}
-                                        />                                
-                                    :
-                                        <>{text[0]}</>
-                                ))}
-                            </Box>
+                            <Paper elevation={10} sx={{ padding: 5, borderRadius: 10 }}>
+                                <Box>  
+                                    {quiztexts.map((text, i) => (
+                                        text[0] === "*preposition*" ?
+                                            
+                                            <TextField size="small" type="text"
+                                                onChange={(e) => recordAnswer(e, text[1])}
+                                            />                                
+                                        :
+                                            <>{text[0]}</>
+                                    ))}
+                                </Box>
+                            </Paper>
+                            <Box sx={{ padding: 4 }}>
+                                <Button size="medium" variant="contained" onClick={handleSubmit}>Submit</Button>
+                            </Box>                            
                         </Box>   
                     :
                         null
                     } 
                 </Grid>
-                <Grid item display="flex" justifyContent="center"  xs={1} sx={{ border: 1, borderColor: 'secondary.main'}}>
+                <Grid item display="flex" justifyContent="center"  xs={1}>
                     <Button onClick={() => generateQuiz(text, 2)}>Next</Button>
                 </Grid>
 

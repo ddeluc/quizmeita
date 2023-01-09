@@ -13,6 +13,7 @@ import {
     Box,
     FormControl, 
     CssBaseline,
+    CardActions,
 } from '@mui/material';
 
 function Flashcard({ front, back }) {
@@ -28,17 +29,11 @@ function Flashcard({ front, back }) {
     }
 
     return (
-        <Card>
-            <Box>
-                <Typography>Flashcard {front}</Typography>
-            </Box>
-            <Button onClick={translate}>Translate</Button>            
-            <Button onClick={flip}>Flip</Button>
-            { face ?
-                <Typography>{front}</Typography>
-            :
-                <Typography>{back}</Typography>
-            }
+        <Card elevation={10} sx={{ length: 100, width: 100, padding: 5, alignItems: 'center', borderRadius: 5 }}>
+            <Typography variant="h5">{face ? front : back}</Typography>
+            <CardActions>
+                <Button variant="contained" onClick={flip}>Flip</Button>
+            </CardActions>            
         </Card>
     )
 }

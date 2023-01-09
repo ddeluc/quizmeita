@@ -8,7 +8,8 @@ import {
     Card,
     colors,
     Paper,
-    TextField, 
+    TextField,
+    CardActions, 
     Typography, 
     Button, 
     Grid, 
@@ -45,13 +46,13 @@ function Module({ username, module, handleModuleClick, deleteModule, selected}) 
         //         null
         //     }            
         // </div>
-        <Card onClick={() => {handleModuleClick(module._id)}}>
+        <Card elevation={10} sx={{ width: 250, padding: 2, borderRadius: 5 }} onClick={() => {handleModuleClick(module._id)}}>
             <Typography variant='h5'>{module.title}</Typography>
             { selected ? 
-                <Box>
+                <CardActions>
                     <Button variant='contained' onClick={handleQuiz}>Quiz</Button>
                     <Button variant='contained' onClick={() => {deleteModule(module._id)}}>Delete</Button>
-                </Box>
+                </CardActions>
             :
                 null
             }

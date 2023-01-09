@@ -145,22 +145,29 @@ function HomePage({ userData }) {
         // </div>
         <ThemeProvider theme={theme}>
             <Grid container display="flex" justifyContent="center">
-                <Grid item display="flex" justifyContent="center" xs={5} sx={{ border: 1, borderColor: 'primary.main' }}>
+                <Grid item display="flex" justifyContent="center" xs={5}>
                     <Box sx={{
                         padding: 10,
                         display: 'flex',
                         flexDirection: 'column',
-                        alignItems: 'center', 
-                        border: 1, borderColor: 'primary.main'
+                        alignItems: 'center',
                     }}>
-                        <Typography variant='h2' sx={{
-                            padding: 2,
+                        <Box sx={{
+                        paddingBottom: 4,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center', 
                         }}>
-                            Modules
-                        </Typography>
-                        <Button onClick={handleCreate} variant='contained' >
-                            Create
-                        </Button>
+                            <Typography variant='h2' sx={{
+                                padding: 2,
+                            }}>
+                                Modules
+                            </Typography>
+                            <Button onClick={handleCreate} variant='contained' size="large">
+                                Create
+                            </Button>
+                        </Box>                      
+
                         <Modal
                             aria-labelledby="transition-modal-title"
                             aria-describedby="transition-modal-description"
@@ -186,9 +193,9 @@ function HomePage({ userData }) {
                             </Fade>
                         </Modal>
                         { (modules.length > 0) ?
-                            <Grid container>
+                            <Grid container spacing={3} alignItems="center">
                                 {modules.map(module => (
-                                    <Grid item xs={12} key={module._id}>
+                                    <Grid item display="flex" justifyContent="center" xs={12} key={module._id}>
                                         <Module username={userData.username} handleModuleClick={() => handleModuleClick(module._id)} module={module} deleteModule={deleteModule} selected={module.selected}></Module>
                                         {/* <Card sx={{ flexGrow: 1, border: 1, borderColor: 'primary.main' }}>Module</Card> */}
                                     </Grid>                                    
@@ -201,17 +208,17 @@ function HomePage({ userData }) {
                         }                         
                     </Box>
                 </Grid>
-                <Grid item display="flex" justifyContent="center" xs={5} sx={{ border: 1, borderColor: 'primary.main', padding: 10}}>
-                    <Paper elevation={10} sx={{ length: 800, width: 600}}>
-                        <Box>
+                <Grid item display="flex" justifyContent="center" xs={5} sx={{ padding: 10}}>
+                    <Paper elevation={10} sx={{ length: 800, width: 600, borderRadius: 10 }}>
+                        <Box sx={{ padding: 5 }}>
                             { selected ?
-                                <Typography>{selected.text}</Typography>
+                                <Typography variant='h6'>{selected.text}</Typography>
                             :
-                                <>Select a module to display its contents.</>
+                                <Typography variant='h6'>Select a module to display its contents.</Typography>
                             }
                             { modules.length == 0 ?
                                 <>
-                                    <Typography>
+                                    <Typography variant='h6'>
                                         If you are new and don't have any modules yet, click the button
                                         "Example" button below for a pre-built module! 
                                     </Typography>
