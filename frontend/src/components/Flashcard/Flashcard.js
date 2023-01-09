@@ -1,5 +1,19 @@
 import React, { useEffect, useState } from "react";
 import * as wr from "wordreference-api";
+import { 
+    Container,
+    Link,
+    Card,
+    colors,
+    Paper,
+    TextField, 
+    Typography, 
+    Button, 
+    Grid, 
+    Box,
+    FormControl, 
+    CssBaseline,
+} from '@mui/material';
 
 function Flashcard({ front, back }) {
     const [face, setFace] = useState(true);
@@ -14,18 +28,18 @@ function Flashcard({ front, back }) {
     }
 
     return (
-        <div>
-            <div>
-                Flashcard {front}
-            </div>
-            <button onClick={translate}>Translate</button>            
-            <button onClick={flip}>Flip</button>
+        <Card>
+            <Box>
+                <Typography>Flashcard {front}</Typography>
+            </Box>
+            <Button onClick={translate}>Translate</Button>            
+            <Button onClick={flip}>Flip</Button>
             { face ?
-                <div>{front}</div>
+                <Typography>{front}</Typography>
             :
-                <div>{back}</div>
+                <Typography>{back}</Typography>
             }
-        </div>
+        </Card>
     )
 }
 

@@ -1,6 +1,24 @@
 import React, { useEffect, useState } from "react";
 import Flashcard from "../Flashcard/Flashcard";
 import * as api from "../../api/index.js";
+import { 
+    Modal,
+    Fade, 
+    Typography, 
+    Button, 
+    Grid,
+    Paper, 
+    Box,
+    FormControl, 
+    CssBaseline,
+    TextField,
+} from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material';
+
+const theme = createTheme({
+
+});
+
 
 function Deck({ module }) {
     const [flashcards, setFlashcards] = useState();
@@ -39,25 +57,45 @@ function Deck({ module }) {
     }
 
     return (
-        <div>
-            <div>
-                Deck
-            </div>
-            { flashcards ?
-                <div>
-                    <ul className="Flashcard-list">
-                        {flashcards.map(flashcard => (
-                            <li key={flashcard._id}>
+        // <div>
+        //     <div>
+        //         Deck
+        //     </div>
+        //     { flashcards ?
+        //         <div>
+        //             <ul className="Flashcard-list">
+        //                 {flashcards.map(flashcard => (
+        //                     <li key={flashcard._id}>
+        //                         <Flashcard front={flashcard.front} back={flashcard.back}></Flashcard>
+        //                     </li>                        
+        //                 ))}
+        //             </ul>
+        //         </div> 
+        //     :
+        //         null
+        //     }                      
+        // </div>
+        <ThemeProvider theme={theme}>
+            <Box sx={{  
+                padding: 5,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center', 
+            }}>
+                <Typography variant="h5" sx={{ paddingBottom: 3 }}>Deck</Typography>
+                { flashcards ?
+                    <Grid container justifyContent="center" spacing={5}>
+                        {flashcards.map((flashcard) => (
+                            <Grid item key={flashcard._id} sx={{ border: 1, borderColor: 'primary.main' }}>
                                 <Flashcard front={flashcard.front} back={flashcard.back}></Flashcard>
-                            </li>                        
+                            </Grid>
                         ))}
-                    </ul>
-                </div> 
-            :
-                null
-            }            
-                       
-        </div>
+                    </Grid>
+                :   
+                    <Typography>No Flashcards</Typography>
+                }
+            </Box>
+        </ThemeProvider>
     )
 }
 

@@ -2,6 +2,23 @@ import { joinPaths } from "@remix-run/router";
 import React, { useEffect, useState, useRef } from "react";
 import prepositions from "./grammar";
 import * as grammar from "./grammar";
+import { 
+    Modal,
+    Fade, 
+    Typography, 
+    Button, 
+    Grid,
+    Paper, 
+    Box,
+    FormControl, 
+    CssBaseline,
+    TextField,
+} from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material';
+
+const theme = createTheme({
+
+});
 
 function Quiz({ text }) {
     const [quiz, setQuiz] = useState();
@@ -110,33 +127,72 @@ function Quiz({ text }) {
     }
 
     return (
-        <>
-            <div>
-                { quiz ?
-                    <div>
-                    {quiz.type} Quiz
-                        {quiztexts.map((text, i) => (
-                            text[0] === "*preposition*" ?
-                                <label>
-                                    <input
-                                        type="text"
-                                        onChange={(e) => recordAnswer(e, text[1])}
-                                        />
-                                    {/* {`   ${score ? score.scoreArray[i] ? "correct!" : "incorrect" : ""}`}
-                                    {`${showAnswers && !score.scoreArray[i] ? ":   " + quiz.answers[i].ans : ""}`} */}
-                                </label> 
-                            :
-                                <>{text[0]}</>
-                        ))}
-                    </div>   
-                :
-                    null
-                } 
-            </div>
-            <button onClick={() => generateQuiz(text, 2)}>Next Quiz</button>
-            <button onClick={() => generateQuiz(text, 1)}>Prev Quiz</button>
-            <button onClick={handleSubmit}>Submit</button>
-        </>        
+        // <>
+        //     <div>
+                // { quiz ?
+                //     <div>
+                //     {quiz.type} Quiz
+                //         {quiztexts.map((text, i) => (
+                //             text[0] === "*preposition*" ?
+                //                 <label>
+                //                     <input
+                //                         type="text"
+                //                         onChange={(e) => recordAnswer(e, text[1])}
+                //                         />
+                //                     {/* {`   ${score ? score.scoreArray[i] ? "correct!" : "incorrect" : ""}`}
+                //                     {`${showAnswers && !score.scoreArray[i] ? ":   " + quiz.answers[i].ans : ""}`} */}
+                //                 </label> 
+                //             :
+                //                 <>{text[0]}</>
+                //         ))}
+                //     </div>   
+                // :
+                //     null
+                // } 
+        //     </div>
+        //     <button onClick={() => generateQuiz(text, 2)}>Next Quiz</button>
+        //     <button onClick={() => generateQuiz(text, 1)}>Prev Quiz</button>
+        //     <button onClick={handleSubmit}>Submit</button>
+        // </>
+        <ThemeProvider theme={theme}>
+            <Grid container display="flex" justifyContent="center">
+                <Grid item display="flex" justifyContent="center" xs={1} sx={{ border: 1, borderColor: 'secondary.main'}}>
+                    <Button onClick={() => generateQuiz(text, 1)}>Previous</Button>
+                </Grid>
+                <Grid item display="flex" justifyContent="center" xs={10} sx={{ border: 1, borderColor: 'secondary.main'}}>
+                    
+                    { quiz ?
+                        <Box sx={{  
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center', 
+                            }}>                                                 
+                            <Typography variant="h5" sx={{ paddingBottom: 3 }}>
+                                {quiz.type} Quiz 
+                            </Typography>
+                            <Box>  
+                                {quiztexts.map((text, i) => (
+                                    text[0] === "*preposition*" ?
+                                        
+                                        <TextField
+                                            type="text"
+                                            onChange={(e) => recordAnswer(e, text[1])}
+                                        />                                
+                                    :
+                                        <>{text[0]}</>
+                                ))}
+                            </Box>
+                        </Box>   
+                    :
+                        null
+                    } 
+                </Grid>
+                <Grid item display="flex" justifyContent="center"  xs={1} sx={{ border: 1, borderColor: 'secondary.main'}}>
+                    <Button onClick={() => generateQuiz(text, 2)}>Next</Button>
+                </Grid>
+
+            </Grid>
+        </ThemeProvider>        
     )
 }
 

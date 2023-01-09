@@ -1,7 +1,42 @@
 // https://www.digitalocean.com/community/tutorials/how-to-add-login-authentication-to-react-applications
 
 import React, { useState } from 'react';
+import { 
+    Container,
+    Link,
+    colors,
+    Paper,
+    TextField, 
+    Typography, 
+    Button, 
+    Grid, 
+    Box,
+    FormControl, 
+    CssBaseline,
+} from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import * as api from "../../api/index.js";
+// import "./style.css";
+
+
+
+function Copyright(props) {
+    return (
+      <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        {'Created by '}
+        <Link color="inherit" href='https://github.com/ddeluc'>
+          Dante Deluca
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
+    );
+  }
+
+const theme = createTheme({
+    
+});
 
 function Auth({ setUserData, setToken }) {
     const [isSignup, setIsSignup] = useState(false);
@@ -54,32 +89,84 @@ function Auth({ setUserData, setToken }) {
     };
     
     return(
-        <div className="login-wrapper">
-            <h1> {isSignup ? "Sign up" : "Log In"}</h1>
-            <form>
-                <label>
-                    <p> {isSignup ? "Create " : ""} Username</p>
-                    <input onChange={handleChange} type="text" name="username" minLength={5} maxLength={12} required/>
-                </label>
-                <label>
-                    <p>Password</p>
-                    <input onChange={handleChange} type="text" name="password" minLength={8} required/>
-                </label>
-                {
-                    isSignup && (
-                        <label>
-                            <p>Confirm Password</p>
-                            <input onChange={handleChange} type="text" name="confirmPassword" minLength={8} required/>
-                        </label>
-                    )
-                }
-            <div>
-                <button onClick={handleSubmit} type="submit">Submit</button>
-            </div>
-            {error ? <div>{error}</div> : null }
-          </form>
-          <button onClick={() => {setIsSignup(!isSignup)}}>{ isSignup ? "Log In" : "Sign Up" }</button>
-        </div>
+        <ThemeProvider theme={theme}>
+            <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Paper rounded={10} elevation={10} sx={{ padding: 4, mt: 8, borderRadius: 10 }}>
+                <Box sx={{  
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center', 
+                    }}>
+                    
+                    <Typography fontFamily={"Helvetica"} variant="h2">Quizshare</Typography>
+                    <Typography variant="h4">Italian</Typography>
+                        
+                    <Box component="form" className="form">
+                        <Typography sx={{ marginTop: 2 }} variant="h5">
+                            {isSignup ? "Sign up" : "Log In"}
+                        </Typography>
+            
+                        <TextField
+                            margin='normal'
+                            error={error ? true : false}
+                            fullWidth
+                            helperText={error}
+                            onChange={handleChange}
+                            label="Username" 
+                            variant='standard' 
+                            type="text" 
+                            name="username" 
+                            minLength={5} 
+                            maxLength={12}
+                        />                   
+                        <TextField
+                            margin='normal'
+                            fullWidth
+                            error={error ? true : false}
+                            helperText={error}
+                            onChange={handleChange} 
+                            label="Password" 
+                            type="text" 
+                            name="password" 
+                            variant='standard' 
+                            minLength={8}
+                        />                    
+                        { isSignup && <TextField
+                            margin='normal'
+                            fullWidth
+                            error={error ? true : false}
+                            helperText={error}
+                            onChange={handleChange} 
+                            label="Confirm Password" 
+                            type="text" 
+                            name="confirmPassword" 
+                            variant='standard' 
+                            minLength={8}
+                        /> 
+                        }               
+                        <Button
+                            sx={{ mt: 3, mb: 2 }}
+                            fullWidth
+                            variant='contained' 
+                            className="form__custom-button" 
+                            onClick={handleSubmit} 
+                            type="submit"
+                        >
+                            Log In
+                        </Button>
+                    </Box>
+                </Box>
+            
+                
+            <Button type="button" onClick={() => {setIsSignup(!isSignup); setError(null)}}>
+                { isSignup ? "Log In" : "Sign Up" }
+            </Button>
+            </Paper>            
+            </Container>
+            <Copyright sx={{ mt: 8, mb: 4 }} />
+        </ThemeProvider>
+        
       )
 }
 

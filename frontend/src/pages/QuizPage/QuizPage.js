@@ -5,6 +5,22 @@ import Quiz from '../../components/Quiz/Quiz';
 import { useNavigate } from "react-router-dom";
 import * as api from "../../api/index.js";
 import Deck from '../../components/Deck/Deck';
+import { 
+    Modal,
+    Fade, 
+    Typography, 
+    Button, 
+    Grid,
+    Paper, 
+    Box,
+    FormControl, 
+    CssBaseline,
+} from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material';
+
+const theme = createTheme({
+    
+});
 
 function QuizPage() {
     const { username, id } = useParams()
@@ -33,22 +49,46 @@ function QuizPage() {
     }
 
     return (
-        <div>            
-            <div>
-            { module ?                
-                <div>
-                    <h1>{module.title}</h1>
-                    <Quiz text={module.text}></Quiz>
-                    <button onClick={() => {navigate('/')}}>Home</button>
-                    <button onClick={showState}>Show State</button>
-                    {/* FIX: Find dictionary api before continuing with flashcards */}
-                    <Deck module={module}></Deck>
-                </div>                
-            : 
-                null 
+        // <div>            
+        //     <div>
+        //     { module ?                
+        //         <div>
+        //             <h1>{module.title}</h1>
+        //             <Quiz text={module.text}></Quiz>
+        //             <button onClick={() => {navigate('/')}}>Home</button>
+        //             <button onClick={showState}>Show State</button>
+        //             {/* FIX: Find dictionary api before continuing with flashcards */}
+        //             <Deck module={module}></Deck>
+        //         </div>                
+        //     : 
+        //         null 
+        //     }
+        //     </div>           
+        // </div>
+        <ThemeProvider theme={theme}>
+            { module ?
+            <Grid container display="flex" justifyContent="center">
+                <Grid item display="flex" justifyContent="center" xs={12} sx={{ border: 1, borderColor: 'primary.main'}}>
+                    <Typography variant='h2' sx={{ paddingTop: 2, paddingBottom: 2}}>
+                        {module.title}
+                    </Typography>
+                </Grid>
+                <Grid item display="flex" justifyContent="center" xs={12} sx={{ border: 1, borderColor: 'primary.main'}}>
+                    <Box>
+                        <Quiz text={module.text}></Quiz>
+                    </Box>
+                </Grid>
+                <Grid item display="flex" justifyContent="center" xs={12} sx={{ border: 1, borderColor: 'primary.main'}}>
+                    <Box>
+                        <Deck module={module}></Deck>
+                    </Box>                    
+                </Grid>
+            </Grid>
+            :
+                <Box>No Module</Box>
             }
-            </div>           
-        </div>
+        </ThemeProvider>
+        
     )
 }
 
