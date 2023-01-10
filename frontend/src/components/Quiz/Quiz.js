@@ -5,7 +5,9 @@ import * as grammar from "./grammar";
 import { 
     Modal,
     Fade, 
-    Typography, 
+    Typography,
+    Container, 
+    Input,
     Button, 
     Grid,
     Paper, 
@@ -15,6 +17,7 @@ import {
     TextField,
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material';
+import { blue } from "@mui/material/colors";
 
 const theme = createTheme({
 
@@ -103,32 +106,43 @@ function Quiz({ text }) {
         let sentence = "";
         for (let i = 0; i < wordList.length; i++) {
             if (reference.includes(wordList[i].replace(`"`, '').toLowerCase())) {
-                
-                let quotation = wordList[i].includes(`"`) ? `"` : '';
-                sentence = sentence.concat(`${quotation}`);
-                quizTexts.push([" " + sentence, 0]);
-                sentence = "";
-
-                quizTexts.push(["*preposition*", answers.length]);
 
                 answers.push({index: i, ans: wordList[i].replace(`"`, '')});
-                
                 userAnswers[answers.length] = "";
+                
+                wordList[i] = "*preposition*";
+                let quotation = wordList[i].includes(`"`) ? `"` : '';
+                if (wordList[i-1])
+                    wordList[i-1].concat(quotation);
 
-            } else {
-                if (wordList[wordList.length-1] == "'") {
-                    sentence = sentence.concat(wordList[i])
-                } else {
-                    sentence = sentence.concat(wordList[i] + " ")
-                }               
-            }  
+                
+
+                // ---- CURRENT CODE ----
+                // let quotation = wordList[i].includes(`"`) ? `"` : '';
+                // sentence = sentence.concat(`${quotation}`);
+                // quizTexts.push([" " + sentence, 0]);
+                // sentence = "";
+
+                // quizTexts.push(["*preposition*", answers.length]);
+
+                // answers.push({index: i, ans: wordList[i].replace(`"`, '')});
+                
+                // userAnswers[answers.length] = "";
+            }
+            // } else {
+            //     if (wordList[wordList.length-1] == "'") {
+            //         sentence = sentence.concat(wordList[i])
+            //     } else {
+            //         sentence = sentence.concat(wordList[i] + " ")
+            //     }               
+            // }  
         }
 
         quizTexts.push([" " + sentence, 0]);
 
         setAnswers(userAnswers);
         setQuiztexts(quizTexts);
-        setQuiz({quiztext: quiztext, answers: answers, type: quizTitle})
+        setQuiz({quiztext: wordList, answers: answers, type: quizTitle})
     }
 
     return (
@@ -161,11 +175,10 @@ function Quiz({ text }) {
         // </>
         <ThemeProvider theme={theme}>
             <Grid container display="flex" justifyContent="center">
-                <Grid item display="flex" justifyContent="center" xs={1}>
+                <Grid item display="flex" justifyContent="center" xs={2}>
                     <Button onClick={() => generateQuiz(text, 1)}>Previous</Button>
                 </Grid>
-                <Grid item display="flex" justifyContent="center" xs={10}>
-                    
+                <Grid item display="flex" justifyContent="center" xs={8}>                    
                     { quiz ?
                         <Box sx={{  
                                 display: 'flex',
@@ -176,30 +189,33 @@ function Quiz({ text }) {
                                 {quiz.type} Quiz 
                             </Typography>
                             <Paper elevation={10} sx={{ padding: 5, borderRadius: 10 }}>
-                                <Box>  
-                                    {quiztexts.map((text, i) => (
-                                        text[0] === "*preposition*" ?
-                                            
-                                            <TextField size="small" type="text"
-                                                onChange={(e) => recordAnswer(e, text[1])}
-                                            />                                
+                                <Grid container>  
+                                    {quiz.quiztext.map((word) => (
+                                        word === "*preposition*" ?
+                                            <>
+                                                <Input maxLength={5} type="text" sx={{ height: 27, width: 75 }}
+                                                    onChange={(e) => recordAnswer(e, text[1])}/>  
+                                                <Typography sx={{ paddingBottom: 1 }} whiteSpace="pre"> </Typography>
+                                            </>                     
                                         :
-                                            <>{text[0]}</>
+                                            
+                                            <Typography whiteSpace="pre" sx={{ paddingBottom: 1 }}>{word} </Typography>
+                                            
+                                            
                                     ))}
-                                </Box>
+                                </Grid>
                             </Paper>
                             <Box sx={{ padding: 4 }}>
-                                <Button size="medium" variant="contained" onClick={handleSubmit}>Submit</Button>
+                                <Button size="large" variant="contained" onClick={handleSubmit}>Submit</Button>
                             </Box>                            
                         </Box>   
                     :
                         null
                     } 
                 </Grid>
-                <Grid item display="flex" justifyContent="center"  xs={1}>
-                    <Button onClick={() => generateQuiz(text, 2)}>Next</Button>
+                <Grid item display="flex" justifyContent="center" xs={2}>
+                    <Button onClick={() => generateQuiz(text, 2)}>Next</Button>                      
                 </Grid>
-
             </Grid>
         </ThemeProvider>        
     )

@@ -78,10 +78,8 @@ function QuizPage() {
                         <Quiz text={module.text}></Quiz>
                     </Box>
                 </Grid>
-                <Grid item display="flex" justifyContent="center" xs={12}>
-                    <Box>
-                        <Deck module={module}></Deck>
-                    </Box>                    
+                <Grid item display="flex" justifyContent="center" xs={12} sx={{ border: 1, borderColor: 'primary.main'}}>                    
+                    <Deck module={module}></Deck>                                        
                 </Grid>
             </Grid>
             :

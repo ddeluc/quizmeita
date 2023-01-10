@@ -82,12 +82,12 @@ function Deck({ module }) {
                 flexDirection: 'column',
                 alignItems: 'center', 
             }}>
-                <Typography variant="h4" sx={{ paddingBottom: 5 }}>Deck</Typography>
+                <Typography variant="h4" sx={{ paddingBottom: 5 }}>Flashcards</Typography>
                 { flashcards ?
-                    <Grid container justifyContent="center" spacing={10}>
+                    <Grid container display='flex' justifyContent="center" spacing={10} sx={{ border: 1, borderColor: 'primary.main'}}>
                         {flashcards.map((flashcard) => (
-                            <Grid item key={flashcard._id}>
-                                <Flashcard front={flashcard.front} back={flashcard.back}></Flashcard>
+                            <Grid item key={flashcard._id} sx={{ border: 1, borderColor: 'primary.main'}}>
+                                <Flashcard front={flashcard.front} back={flashcard.back} sx={{ border: 1, borderColor: 'primary.main'}}></Flashcard>
                             </Grid>
                         ))}
                     </Grid>
