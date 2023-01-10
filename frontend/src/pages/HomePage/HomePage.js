@@ -145,7 +145,7 @@ function HomePage({ userData }) {
         // </div>
         <ThemeProvider theme={theme}>
             <Grid container display="flex" justifyContent="center">
-                <Grid item display="flex" justifyContent="center" xs={5}>
+                <Grid item display="flex" justifyContent="center" xs={4}>
                     <Box sx={{
                         padding: 10,
                         display: 'flex',
@@ -159,7 +159,7 @@ function HomePage({ userData }) {
                         alignItems: 'center', 
                         }}>
                             <Typography variant='h2' sx={{
-                                padding: 2,
+                                paddingBottom: 2,
                             }}>
                                 Modules
                             </Typography>
@@ -193,7 +193,7 @@ function HomePage({ userData }) {
                             </Fade>
                         </Modal>
                         { (modules.length > 0) ?
-                            <Grid container spacing={3} alignItems="center">
+                            <Grid container spacing={3} alignItems="center">                            
                                 {modules.map(module => (
                                     <Grid item display="flex" justifyContent="center" xs={12} key={module._id}>
                                         <Module username={userData.username} handleModuleClick={() => handleModuleClick(module._id)} module={module} deleteModule={deleteModule} selected={module.selected}></Module>
@@ -208,8 +208,8 @@ function HomePage({ userData }) {
                         }                         
                     </Box>
                 </Grid>
-                <Grid item display="flex" justifyContent="center" xs={5} sx={{ padding: 10}}>
-                    <Paper elevation={10} sx={{ length: 800, width: 600, borderRadius: 10 }}>
+                <Grid item display="flex" justifyContent="center" xs={4} sx={{ height: 800, padding: 5 }}>
+                    <Paper display="flex" elevation={10} sx={{ margin: 'auto', width: 700, borderRadius: 10 }}>
                         <Box sx={{ padding: 5 }}>
                             { selected ?
                                 <Typography variant='h6'>{selected.text}</Typography>
