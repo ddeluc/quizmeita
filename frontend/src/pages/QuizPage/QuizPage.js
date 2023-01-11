@@ -69,7 +69,7 @@ function QuizPage() {
             { module ?
             <Grid container display="flex" justifyContent="center">
                 <Grid item display="flex" justifyContent="center" xs={12}>
-                    <Typography variant='h2' sx={{ paddingTop: 2, paddingBottom: 2}}>
+                    <Typography variant='h2' sx={{ paddingTop: 4, paddingBottom: 4}}>
                         {module.title}
                     </Typography>
                 </Grid>
@@ -78,7 +78,7 @@ function QuizPage() {
                         <Quiz text={module.text}></Quiz>
                     </Box>
                 </Grid>
-                <Grid item display="flex" justifyContent="center" xs={12} sx={{ border: 1, borderColor: 'primary.main'}}>                    
+                <Grid item display="flex" justifyContent="center" xs={12}>                    
                     <Deck module={module}></Deck>                                        
                 </Grid>
             </Grid>

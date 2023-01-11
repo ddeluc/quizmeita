@@ -146,37 +146,12 @@ function Quiz({ text }) {
     }
 
     return (
-        // <>
-        //     <div>
-                // { quiz ?
-                //     <div>
-                //     {quiz.type} Quiz
-                //         {quiztexts.map((text, i) => (
-                //             text[0] === "*preposition*" ?
-                //                 <label>
-                //                     <input
-                //                         type="text"
-                //                         onChange={(e) => recordAnswer(e, text[1])}
-                //                         />
-                //                     {/* {`   ${score ? score.scoreArray[i] ? "correct!" : "incorrect" : ""}`}
-                //                     {`${showAnswers && !score.scoreArray[i] ? ":   " + quiz.answers[i].ans : ""}`} */}
-                //                 </label> 
-                //             :
-                //                 <>{text[0]}</>
-                //         ))}
-                //     </div>   
-                // :
-                //     null
-                // } 
-        //     </div>
-        //     <button onClick={() => generateQuiz(text, 2)}>Next Quiz</button>
-        //     <button onClick={() => generateQuiz(text, 1)}>Prev Quiz</button>
-        //     <button onClick={handleSubmit}>Submit</button>
-        // </>
         <ThemeProvider theme={theme}>
             <Grid container display="flex" justifyContent="center">
                 <Grid item display="flex" justifyContent="center" xs={2}>
-                    <Button onClick={() => generateQuiz(text, 1)}>Previous</Button>
+                    <Box justifyContent="center" sx={{ alignItems: 'center', flexDirection: 'column', display: 'flex'}}>
+                        <Button variant="outlined" onClick={() => generateQuiz(text, 1)}>Previous</Button>
+                    </Box>
                 </Grid>
                 <Grid item display="flex" justifyContent="center" xs={8}>                    
                     { quiz ?
@@ -193,9 +168,10 @@ function Quiz({ text }) {
                                     {quiz.quiztext.map((word) => (
                                         word === "*preposition*" ?
                                             <>
-                                                <Input maxLength={5} type="text" sx={{ height: 27, width: 75 }}
-                                                    onChange={(e) => recordAnswer(e, text[1])}/>  
                                                 <Typography sx={{ paddingBottom: 1 }} whiteSpace="pre"> </Typography>
+                                                <Input maxLength={5} type="text" sx={{ height: 27, width: 60 }}
+                                                    onChange={(e) => recordAnswer(e, text[1])}/>  
+                                                <Typography sx={{ paddingBottom: 1 }} whiteSpace="pre">  </Typography>
                                             </>                     
                                         :
                                             
@@ -214,7 +190,9 @@ function Quiz({ text }) {
                     } 
                 </Grid>
                 <Grid item display="flex" justifyContent="center" xs={2}>
-                    <Button onClick={() => generateQuiz(text, 2)}>Next</Button>                      
+                    <Box justifyContent="center" sx={{ alignItems: 'center', flexDirection: 'column', display: 'flex'}}>
+                        <Button variant="outlined" onClick={() => generateQuiz(text, 2)}>Next</Button> 
+                    </Box>                                         
                 </Grid>
             </Grid>
         </ThemeProvider>        

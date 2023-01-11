@@ -77,17 +77,17 @@ function Deck({ module }) {
         // </div>
         <ThemeProvider theme={theme}>
             <Box sx={{  
-                padding: 5,
+                padding: 4,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center', 
             }}>
                 <Typography variant="h4" sx={{ paddingBottom: 5 }}>Flashcards</Typography>
                 { flashcards ?
-                    <Grid container display='flex' justifyContent="center" spacing={10} sx={{ border: 1, borderColor: 'primary.main'}}>
+                    <Grid container display='flex' justifyContent="center" spacing={10}>
                         {flashcards.map((flashcard) => (
-                            <Grid item key={flashcard._id} sx={{ border: 1, borderColor: 'primary.main'}}>
-                                <Flashcard front={flashcard.front} back={flashcard.back} sx={{ border: 1, borderColor: 'primary.main'}}></Flashcard>
+                            <Grid item key={flashcard._id}>
+                                <Flashcard front={flashcard.front} back={flashcard.back}></Flashcard>
                             </Grid>
                         ))}
                     </Grid>

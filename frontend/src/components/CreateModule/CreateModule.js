@@ -32,33 +32,14 @@ function CreateModule ({ addModule, user }) {
             // setError(error.response.data.message)
         }        
     }
-
-    // FIX: Set the flashcards here
     
     return (
-        // <div>
-        //     <form onSubmit={handleSubmit}>
-        //     <label>
-        //         Title:
-        //         <input type="text" name="title" />
-        //     </label>
-        //     <label>
-        //         Text:
-        //         <input type="text" name="text" />
-        //     </label>
-        //     <input type="submit" value="Submit" />
-        //     </form>
-        //     <div>{error}</div>
-        // </div>
-        <Paper>
-            <Box component="form" onSubmit={handleSubmit}>
-            <TextField type="text" name="title">
-                Title: 
-            </TextField>
-            <TextField type="text" name="text">
-                Text: 
-            </TextField>
-            <TextField type="submit" value="Submit">Create</TextField>
+        <Paper sx={{ padding: 5, borderRadius: 10 }}>
+            <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                <Typography variant="h5">Create Module</Typography>
+                <TextField marign="normal" label="title" type="text" name="title" sx={{ mt: 3, mb: 2 }}></TextField>
+                <TextField marign="normal" label="text" type="text" name="text" sx={{ mt: 2, mb: 2 }}></TextField>
+                <Button type="Submit">Create</Button>
             </Box>
             <Box>
                 {error}

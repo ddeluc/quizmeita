@@ -29,7 +29,7 @@ function Flashcard({ front, back }) {
     }
 
     return (
-        <Card elevation={10} sx={{ length: 100, width: 100, padding: 5, alignItems: 'center', borderRadius: 5 }}>
+        <Card elevation={10} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', length: 100, width: 100, padding: 5, borderRadius: 5 }}>
             <Typography variant="h5">{face ? front : back}</Typography>
             <CardActions>
                 <Button variant="contained" onClick={flip}>Flip</Button>
